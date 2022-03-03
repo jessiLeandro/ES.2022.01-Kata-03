@@ -5,6 +5,9 @@ const {
 module.exports = (sequelize, DataTypes) => {
   class departamento extends Model {
     static associate(models) {
+      models.departamento.hasMany(models.projeto)
+
+      models.departamento.belongsToMany(models.projeto, { through: 'departamentoProjeto' });
     }
   }
   departamento.init({

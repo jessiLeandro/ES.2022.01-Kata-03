@@ -6,6 +6,8 @@ module.exports = (sequelize, DataTypes) => {
   class projeto extends Model {
     static associate(models) {
       models.projeto.belongsTo(models.departamento)
+
+      models.projeto.belongsToMany(models.departamento, { through: 'departamentoProjeto' });
     }
   }
   projeto.init({
@@ -18,6 +20,16 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'projeto',
+    hooks: {
+      afterSave: async (projeto, options) => {
+        await sequelize.models.departamentoProjeto.findOrCreate({
+          where: { 
+            departamentoId: projeto.departamentoId,
+            projetoId: projeto
+          }
+        })
+      }
+    }
   });
   return projeto;
 };
