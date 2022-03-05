@@ -25,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
         await sequelize.models.departamentoProjeto.findOrCreate({
           where: { 
             departamentoId: projeto.departamentoId,
-            projetoId: projeto
+            projetoId: projeto.id
           }
         })
       }
